@@ -38,11 +38,9 @@ public class UsuarioService {
         return u;
     }
 
-    public Usuario crearUsuario(String email, String password, String fullName, Date fechaLogin){
+    public Usuario crearUsuario(String nombre, Date fechaNacimiento, String documento, String email, String password){
 
         Usuario usuario = new Usuario();
-        usuario.setFechaLogin(new Date());
-        usuario.setNombre(fullName);
         usuario.setUsername(email);
         usuario.setEmail(email);
         usuario.setPassword(Crypto.encrypt(password, email.toLowerCase()));

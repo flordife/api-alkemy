@@ -43,7 +43,7 @@ public class AuthController {
 
         // aca creamos la persona y el usuario a traves del service.
 
-        Usuario usuario = usuarioService.crearUsuario(req.fullName, req.email, req.password, req.fechaLogin);
+        Usuario usuario = usuarioService.crearUsuario(req.fullName, req.birthDate, req.identification, req.email, req.password);
 
         r.isOk = true;
         r.message = "Te registraste con exitoooo!!!!!!!";

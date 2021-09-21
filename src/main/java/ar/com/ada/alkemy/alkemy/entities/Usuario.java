@@ -22,18 +22,8 @@ public class Usuario {
 
     private String email;
 
-    private String nombre;
-
     @Column(name = "fecha_login")
     private Date fechaLogin;
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public Integer getUsuarioId() {
         return usuarioId;
