@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ar.com.ada.alkemy.alkemy.entities.Genero;
 import ar.com.ada.alkemy.alkemy.entities.Pelicula;
 import ar.com.ada.alkemy.alkemy.models.request.InfoPeliculaActualizada;
+import ar.com.ada.alkemy.alkemy.models.request.InfoPeliculaNueva;
 import ar.com.ada.alkemy.alkemy.models.response.GenericResponse;
 import ar.com.ada.alkemy.alkemy.models.response.MoviesResponse;
 import ar.com.ada.alkemy.alkemy.services.*;
@@ -23,15 +24,14 @@ public class PeliculaController {
     GeneroService generoService;
 
     @PostMapping("/movies")
-    public ResponseEntity<GenericResponse> postPeliculas(@RequestBody Pelicula pelicula, Integer id) {
+    public ResponseEntity<GenericResponse> postPeliculas(@RequestBody InfoPeliculaNueva infoPeliculaNueva, Integer id) {
 
-        service.crearPelicula(pelicula);
-        Genero genero = generoService.buscarPorGeneroId(id);
-        genero.agregarPelicula(pelicula);
+        Pelicula pelicula = service.crearPelicula(infoPeliculaNueva.generoId, infoPeliculaNueva.calificacion,
+                infoPeliculaNueva.fechaCreacion, infoPeliculaNueva.imagen, infoPeliculaNueva.titulo);
 
         GenericResponse respuesta = new GenericResponse();
         respuesta.isOk = true;
-        respuesta.id = pelicula.getPeliculaId();
+        respuesta.id = pelicula.getPeliculaId(); 
         respuesta.mensaje = "La película ha sido creada con exito.";
 
         return ResponseEntity.ok(respuesta);

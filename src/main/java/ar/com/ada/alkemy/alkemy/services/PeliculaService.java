@@ -23,8 +23,17 @@ public class PeliculaService {
         return repository.findByPeliculaId(id);
     }
 
-    public void crearPelicula(Pelicula pelicula) {
-        repository.save(pelicula);
+    public Pelicula crearPelicula(Integer generoId, Integer calificacion, Date fechaCreacion,
+    String imagen, String titulo) {
+        Pelicula pelicula = new Pelicula();
+        Genero genero = generoService.buscarPorGeneroId(generoId);
+        pelicula.setCalificacion(calificacion);
+        pelicula.setFechaCreacion(fechaCreacion);   
+        pelicula.setImagen(imagen);
+        pelicula.setTitulo(titulo);
+        genero.agregarPelicula(pelicula);
+        return repository.save(pelicula);
+
     }
 
     public List<MoviesResponse> getPeliculas() {
