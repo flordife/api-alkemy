@@ -25,5 +25,9 @@ public class GeneroService {
     public List<Genero> traerTodos(){
         return repository.findAll();
     }
+
+    public Genero buscarPorNombre(String nombre) {
+        return repository.findByName(nombre);
+    }
     
 }

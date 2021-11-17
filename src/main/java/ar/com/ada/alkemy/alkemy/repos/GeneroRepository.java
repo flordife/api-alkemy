@@ -9,5 +9,7 @@ import ar.com.ada.alkemy.alkemy.entities.Genero;
 public interface GeneroRepository extends JpaRepository<Genero, Integer>{
 
     Genero findByGeneroId(Integer id);
+
+    Genero findByName(String nombre);
     
 }
