@@ -25,8 +25,15 @@ public class PersonajeController {
     UsuarioService usuarioService;
 
     @GetMapping("/characters")
-    public ResponseEntity<List<CharactersResponse>> getPersonajes() {
-        return ResponseEntity.ok(service.getPersonajes());
+    public ResponseEntity<List<CharactersResponse>> getPersonajes(String imagen, String nombre) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+
+        List<CharactersResponse> personajes = service.getPersonajes(imagen, nombre);
+
+        return ResponseEntity.ok(personajes);
     }
 
     @PostMapping("/characters")
@@ -64,24 +71,76 @@ public class PersonajeController {
         respuesta.mensaje = "El personaje ha sido actualizado";
 
         return ResponseEntity.ok(respuesta);
-    
+
     }
 
-    @DeleteMapping("/characters/{id}") 
-    public ResponseEntity<GenericResponse> deletePersonaje(@PathVariable Integer id){
+    @DeleteMapping("/characters/{id}")
+    public ResponseEntity<GenericResponse> deletePersonaje(@PathVariable Integer id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Usuario usuario = usuarioService.buscarPorUsername(username);
 
         GenericResponse respuesta = new GenericResponse();
-        service.borrarPersonajePorId(id);
 
-        respuesta.isOk = true;
-        respuesta.mensaje = "El personaje ha sido eliminado.";
+        if (service.buscarPersonajePorId(id) == null) {
+            respuesta.isOk = false;
+            respuesta.mensaje = "El id ingresado no existe";
+            return ResponseEntity.badRequest().body(respuesta);
 
-        return ResponseEntity.ok(respuesta);
+        } else {
+
+            service.borrarPersonajePorId(id);
+            respuesta.isOk = true;
+            respuesta.mensaje = "El personaje ha sido eliminado.";
+            return ResponseEntity.ok(respuesta);
+
+        }
     }
+
+    @GetMapping("/characters/{id}")
+    public ResponseEntity<Personaje> getPersonajePorId(@PathVariable Integer id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+
+        return ResponseEntity.ok(service.getPersonaje(id));
+    }
+
+    @GetMapping("characters?name=nombre")
+    public ResponseEntity<Personaje> getPersonajePorNombre(@PathVariable String nombre) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+
+        return ResponseEntity.ok(service.getPersonaje(nombre));
+    }
+
+    @GetMapping("/characters?age=edad")
+    public ResponseEntity<Personaje> getPersonajePorEdad(@PathVariable Integer edad) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+
+        return ResponseEntity.ok(service.getPersonaje(edad));
+    }
+
+    @GetMapping("/characters?movies=idMovie")
+    public ResponseEntity<List<Personaje>> getPersonajesPorIdPelicula(@PathVariable Integer idMovie) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+
+        List<Personaje> personajes = service.traerPersonajesPorPelicula(idMovie);
+
+        return ResponseEntity.ok(personajes);
+    }
+
+
 
 
 }

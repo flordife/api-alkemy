@@ -23,17 +23,17 @@ public class PersonajeService {
         return repository.findAll();
     }
 
-    public List<CharactersResponse> getPersonajes() {
-        List<CharactersResponse> personajes = new ArrayList<>();
-        CharactersResponse listaPersonajes = new CharactersResponse();
+    public List<CharactersResponse> getPersonajes(String imagen, String nombre) {
+        List<CharactersResponse> listaPersonajes = new ArrayList<>();
+        CharactersResponse listaPersonajesImagenNombre = new CharactersResponse();
 
         for (Personaje personaje : this.traerPersonajes()) {
-            listaPersonajes.imagen = personaje.getImagen();
-            listaPersonajes.nombre = personaje.getNombre();
+            listaPersonajesImagenNombre.imagen = personaje.getImagen();
+            listaPersonajesImagenNombre.nombre = personaje.getNombre();
 
-            personajes.add(listaPersonajes);
+            listaPersonajes.add(listaPersonajesImagenNombre);
         }
-        return personajes;
+        return listaPersonajes;
     }
 
     public Personaje crearPersonaje(Integer edad, String historia, String imagen, String nombre, double peso,
@@ -45,6 +45,7 @@ public class PersonajeService {
         personaje.setImagen(imagen);
         personaje.setNombre(nombre);
         personaje.setPeso(peso);
+        personaje.setPelicula(pelicula);
         pelicula.agregarPersonaje(personaje);
 
         return repository.save(personaje);
@@ -72,7 +73,22 @@ public class PersonajeService {
     }
 
     public void borrarPersonajePorId(Integer id) {
-        repository.deleteById(id);;
+        repository.deleteById(id);
+    }
+
+    public Personaje getPersonaje(Integer id) {
+        return repository.findByPersonajeId(id);
+    }
+
+    public Personaje getPersonaje(String nombre) {
+        return repository.findByNombre(nombre);
+    }
+
+    public List<Personaje> traerPersonajesPorPelicula(Integer idMovie){
+
+        Pelicula pelicula = peliculaService.buscarPorPeliculaId(idMovie);
+
+        return pelicula.getPersonajes();
     }
 
 }

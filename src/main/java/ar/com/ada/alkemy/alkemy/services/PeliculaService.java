@@ -31,6 +31,7 @@ public class PeliculaService {
         pelicula.setFechaCreacion(fechaCreacion);   
         pelicula.setImagen(imagen);
         pelicula.setTitulo(titulo);
+        pelicula.setGenero(genero);
         genero.agregarPelicula(pelicula);
         return repository.save(pelicula);
 

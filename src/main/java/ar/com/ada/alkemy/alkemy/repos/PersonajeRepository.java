@@ -9,5 +9,7 @@ import ar.com.ada.alkemy.alkemy.entities.Personaje;
 public interface PersonajeRepository extends JpaRepository<Personaje, Integer> {
 
     Personaje findByPersonajeId(Integer id);
+
+    Personaje findByNombre(String nombre);
     
 }
