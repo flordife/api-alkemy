@@ -25,9 +25,9 @@ public class PersonajeService {
 
     public List<CharactersResponse> getPersonajes(String imagen, String nombre) {
         List<CharactersResponse> listaPersonajes = new ArrayList<>();
-        CharactersResponse listaPersonajesImagenNombre = new CharactersResponse();
 
         for (Personaje personaje : this.traerPersonajes()) {
+            CharactersResponse listaPersonajesImagenNombre = new CharactersResponse();
             listaPersonajesImagenNombre.imagen = personaje.getImagen();
             listaPersonajesImagenNombre.nombre = personaje.getNombre();
 

@@ -39,9 +39,9 @@ public class PeliculaService {
 
     public List<MoviesResponse> getPeliculas() {
         List<MoviesResponse> peliculas = new ArrayList<>();
-        MoviesResponse listaPeliculas = new MoviesResponse();
-
+        
         for (Pelicula pelicula : this.traerPeliculas()) {
+            MoviesResponse listaPeliculas = new MoviesResponse();
             listaPeliculas.imagen = pelicula.getImagen();
             listaPeliculas.titulo = pelicula.getTitulo();
             listaPeliculas.fechaCreacion = pelicula.getFechaCreacion();

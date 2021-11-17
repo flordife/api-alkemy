@@ -1,5 +1,7 @@
 package ar.com.ada.alkemy.alkemy.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,10 @@ public class GeneroService {
 
     public void crearGenero(Genero genero) {
         repository.save(genero);
+    }
+
+    public List<Genero> traerTodos(){
+        return repository.findAll();
     }
     
 }
