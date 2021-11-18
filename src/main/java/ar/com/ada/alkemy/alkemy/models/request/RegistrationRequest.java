@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class RegistrationRequest {
 
-    public String fullName; // Nombre persona
-    public String identification; // nro documento
-    public Date birthDate; // fechaNacimiento
-    public String email; // email
-    public String password; // contraseña elegida por el usuario.
+    public String fullName; 
+    public String identification; 
+    public Date birthDate; 
+    public String email; 
+    public String password; 
 
 
 }

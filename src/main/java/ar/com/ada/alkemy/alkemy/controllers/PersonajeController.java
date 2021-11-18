@@ -63,14 +63,23 @@ public class PersonajeController {
         Usuario usuario = usuarioService.buscarPorUsername(username);
 
         GenericResponse respuesta = new GenericResponse();
-        Personaje personaje = service.modificarPersonaje(id, personajeActualizado.peliculaId, personajeActualizado.edad,
+
+        if (service.buscarPersonajePorId(id) == null) {
+            
+            respuesta.isOk = false;
+            respuesta.mensaje = "El id ingresado no existe";
+            return ResponseEntity.badRequest().body(respuesta);
+            
+        } else {
+            
+            Personaje personaje = service.modificarPersonaje(id, personajeActualizado.peliculaId, personajeActualizado.edad,
                 personajeActualizado.historia, personajeActualizado.imagen, personajeActualizado.peso);
-
-        respuesta.id = personaje.getPersonajeId();
-        respuesta.isOk = true;
-        respuesta.mensaje = "El personaje ha sido actualizado";
-
-        return ResponseEntity.ok(respuesta);
+            respuesta.id = personaje.getPersonajeId();
+            respuesta.isOk = true;
+            respuesta.mensaje = "El personaje ha sido actualizado";
+            return ResponseEntity.ok(respuesta);
+            
+        }
 
     }
 

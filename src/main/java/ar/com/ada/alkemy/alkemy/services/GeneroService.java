@@ -27,7 +27,7 @@ public class GeneroService {
     }
 
     public Genero buscarPorNombre(String nombre) {
-        return repository.findByName(nombre);
+        return repository.findByNombre(nombre);
     }
     
 }

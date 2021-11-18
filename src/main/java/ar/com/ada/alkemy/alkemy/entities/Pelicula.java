@@ -1,9 +1,7 @@
 package ar.com.ada.alkemy.alkemy.entities;
 
 import java.util.*;
-
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -28,7 +26,7 @@ public class Pelicula {
     @JoinColumn(name = "genero_id", referencedColumnName = "genero_id")
     private Genero genero;
 
-    @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Personaje> personajes = new ArrayList<>();
     

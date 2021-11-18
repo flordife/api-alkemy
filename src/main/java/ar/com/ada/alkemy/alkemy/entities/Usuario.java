@@ -1,9 +1,7 @@
 package ar.com.ada.alkemy.alkemy.entities;
 
 import java.util.*;
-
 import javax.persistence.*;
-
 import org.hibernate.annotations.NaturalId;
 
 @Entity

@@ -1,11 +1,9 @@
 package ar.com.ada.alkemy.alkemy.security.jwt;
 import java.io.IOException;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,13 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import ar.com.ada.alkemy.alkemy.services.JWTUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 
-/**
- * Este es un filtro que se ejectue en cada request UNA sola ves(OncePerRequest)
- */
+
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
 
@@ -40,8 +35,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         String jwtToken = null;
 
-        // JWT Token viene de la forma "Bearer token". Remover el texto Bearer y obtener
-        // solo el Token
+
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 
             jwtToken = requestTokenHeader.substring(7);
@@ -64,18 +58,12 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         }
 
-        // una vez obtenido, validarlo.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // Usar este si queremos buscar desde la base de datos siempre
-            // UserDetails userDetails =
-            // this.jwtUserDetailsService.loadUserByUsername(username);
-            // O usar este si no queremos y en cuanto el token sea valido, va a estar todo
-            // bien
+         
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username, jwtToken);
 
-            // si el token es valido, configurar Spring Security para poner la autenticacion
-            // manualmente
+         
 
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 
@@ -87,10 +75,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // Despues de setear el Authentication en el contexto, especificaremos
-                // que el usuario esta autenticado. y se pasa a
-                // Spring Security Configurations en forma exitosa.
-
+        
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
             }

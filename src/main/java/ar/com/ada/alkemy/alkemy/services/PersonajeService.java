@@ -1,10 +1,8 @@
 package ar.com.ada.alkemy.alkemy.services;
 
 import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ar.com.ada.alkemy.alkemy.entities.Pelicula;
 import ar.com.ada.alkemy.alkemy.entities.Personaje;
 import ar.com.ada.alkemy.alkemy.models.response.CharactersResponse;

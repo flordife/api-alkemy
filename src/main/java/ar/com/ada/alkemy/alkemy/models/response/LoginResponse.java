@@ -6,6 +6,6 @@ public class LoginResponse {
     public String username;
     public String token;
     public String email;
-    public Integer entityId; // Si es un Pasajero, va el Id de Pasajero, si es staff Id Staff
+    public Integer entityId; 
 
 }

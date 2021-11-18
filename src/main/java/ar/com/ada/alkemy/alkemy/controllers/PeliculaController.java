@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import ar.com.ada.alkemy.alkemy.entities.Genero;
 import ar.com.ada.alkemy.alkemy.entities.Pelicula;
+import ar.com.ada.alkemy.alkemy.entities.Usuario;
 import ar.com.ada.alkemy.alkemy.models.request.InfoPeliculaActualizada;
 import ar.com.ada.alkemy.alkemy.models.request.InfoPeliculaNueva;
 import ar.com.ada.alkemy.alkemy.models.response.GenericResponse;
@@ -23,8 +24,16 @@ public class PeliculaController {
     @Autowired
     GeneroService generoService;
 
+    @Autowired
+    UsuarioService usuarioService;
+
     @PostMapping("/movies")
-    public ResponseEntity<GenericResponse> postPeliculas(@RequestBody InfoPeliculaNueva infoPeliculaNueva, Integer id) {
+    public ResponseEntity<GenericResponse> postPeliculas(@RequestBody InfoPeliculaNueva 
+        infoPeliculaNueva, Integer id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
 
         Pelicula pelicula = service.crearPelicula(infoPeliculaNueva.generoId, infoPeliculaNueva.calificacion,
                 infoPeliculaNueva.fechaCreacion, infoPeliculaNueva.imagen, infoPeliculaNueva.titulo);
@@ -40,12 +49,31 @@ public class PeliculaController {
 
     @GetMapping("/movies")
     public ResponseEntity<List<MoviesResponse>> getPeliculas() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+
         return ResponseEntity.ok(service.getPeliculas());
+    }
+
+    @GetMapping("/movies/{id}")
+    public ResponseEntity<Pelicula> getPeliculaById(@PathVariable Integer id) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+        
+        return ResponseEntity.ok(service.buscarPorPeliculaId(id));
     }
 
     @PutMapping("/movies/{id}")
     public ResponseEntity<GenericResponse> putPeliculas(@PathVariable Integer id,
             @RequestBody InfoPeliculaActualizada peliculaActualizada) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorUsername(username);
 
         Pelicula pelicula = service.modificarPelicula(id, peliculaActualizada.calificacion,
                 peliculaActualizada.generoId, peliculaActualizada.fechaCreacion, peliculaActualizada.imagen,

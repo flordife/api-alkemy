@@ -21,9 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class Crypto {
 
-    // En la vida real, la secretKey estara guardada en algun lado en forma segura y
-    // No sera
-    // estatica
+
     private static String secretKey = "mi personaje favorito de marvel es wolverine";
 
     public static String encrypt(String strToEncrypt, String salt) {
@@ -67,16 +65,15 @@ public class Crypto {
     public static String hash(String strToHash, String salt) {
         try {
 
-            int iterations = 1000; // A mas iteraciones mas lento
+            int iterations = 1000; 
             char[] chars = strToHash.toCharArray();
             byte[] saltBytes = strToHash.getBytes("UTF-8");
 
-            PBEKeySpec spec = new PBEKeySpec(chars, saltBytes, iterations, 64 * 8); // Sha 512 \o/
+            PBEKeySpec spec = new PBEKeySpec(chars, saltBytes, iterations, 64 * 8); 
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             byte[] hash = skf.generateSecret(spec).getEncoded();
             return Base64.getEncoder().encodeToString(hash);
-            // return toHex(hash);
-            // return iterations + ":" + toHex(saltBytes) + ":" + toHex(hash);
+        
         } catch (Exception e) {
             System.out.println("Error while hashing: " + e.toString());
         }

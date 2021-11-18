@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-
 import ar.com.ada.alkemy.alkemy.entities.Usuario;
 import ar.com.ada.alkemy.alkemy.repos.UsuarioRepository;
 import ar.com.ada.alkemy.alkemy.security.Crypto;
@@ -24,10 +23,7 @@ public class UsuarioService {
 
     public Usuario login(String username, String password) {
 
-        /**
-         * Metodo IniciarSesion recibe usuario y contraseña validar usuario y contraseña
-         */
-
+ 
         Usuario u = buscarPorUsername(username);
 
         if (u == null || !u.getPassword().equals(Crypto.encrypt(password, u.getEmail().toLowerCase()))) {
@@ -69,9 +65,6 @@ public class UsuarioService {
     
         claims.put("userType", usuario.getUsuarioId()); ///
     
-        //if (usuario.getPersonaId() != null)
-        // claims.put("userType", usuario.getPersonaId());
-       
         return claims;
       }
 
@@ -83,7 +76,6 @@ public class UsuarioService {
         return uDetails;
     }
 
-    // Usamos el tipo de datos SET solo para usar otro diferente a List private
     Set<? extends GrantedAuthority> getAuthorities(Usuario usuario) {
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
