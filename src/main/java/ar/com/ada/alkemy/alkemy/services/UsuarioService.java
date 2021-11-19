@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 import ar.com.ada.alkemy.alkemy.entities.Usuario;
 import ar.com.ada.alkemy.alkemy.repos.UsuarioRepository;
 import ar.com.ada.alkemy.alkemy.security.Crypto;
+import ar.com.ada.alkemy.alkemy.sistema.comm.EmailService;
 
 @Service
 public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    EmailService emailService;
 
     public Usuario buscarPorUsername(String username) {
         return usuarioRepository.findByUsername(username);
@@ -42,6 +46,7 @@ public class UsuarioService {
         usuario.setPassword(Crypto.encrypt(password, email.toLowerCase()));
         usuarioRepository.save(usuario);
 
+        emailService.SendEmail(usuario.getEmail(), "Registración existosa", "¡Te registraste con éxito!");
         return usuario;
     }
 
