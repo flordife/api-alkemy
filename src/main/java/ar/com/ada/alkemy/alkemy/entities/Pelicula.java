@@ -26,7 +26,7 @@ public class Pelicula {
     @JoinColumn(name = "genero_id", referencedColumnName = "genero_id")
     private Genero genero;
 
-    @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Personaje> personajes = new ArrayList<>();
     

@@ -108,13 +108,19 @@ public class PersonajeController {
     }
 
     @GetMapping("/characters/{id}")
-    public ResponseEntity<Personaje> getPersonajePorId(@PathVariable Integer id) {
+    public ResponseEntity<?> getPersonajePorId(@PathVariable Integer id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Usuario usuario = usuarioService.buscarPorUsername(username);
 
-        return ResponseEntity.ok(service.getPersonaje(id));
+        if (service.buscarPersonajePorId(id) == null) {
+            GenericResponse respuesta = new GenericResponse();
+            respuesta.mensaje = "El id ingresado no existe";
+            return ResponseEntity.badRequest().body(respuesta);
+        } else {
+            return ResponseEntity.ok(service.buscarPersonajePorId(id));
+        }   
     }
 
     @GetMapping("characters?name=nombre")

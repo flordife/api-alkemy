@@ -58,14 +58,21 @@ public class PeliculaController {
     }
 
     @GetMapping("/movies/{id}")
-    public ResponseEntity<Pelicula> getPeliculaById(@PathVariable Integer id) {
+    public ResponseEntity<?> getPeliculaById(@PathVariable Integer id) {
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Usuario usuario = usuarioService.buscarPorUsername(username);
         
-        return ResponseEntity.ok(service.buscarPorPeliculaId(id));
+        if (service.buscarPorPeliculaId(id) == null) {
+            GenericResponse respuesta = new GenericResponse();
+            respuesta.mensaje = "El id ingresado no existe";
+            return ResponseEntity.badRequest().body(respuesta);
+        } else {
+            return ResponseEntity.ok(service.buscarPorPeliculaId(id));
+        }
     }
+
 
     @PutMapping("/movies/{id}")
     public ResponseEntity<GenericResponse> putPeliculas(@PathVariable Integer id,
