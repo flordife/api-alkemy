@@ -74,19 +74,19 @@ public class PersonajeService {
         repository.deleteById(id);
     }
 
-    public Personaje getPersonaje(Integer id) {
-        return repository.findByPersonajeId(id);
-    }
-
-    public Personaje getPersonaje(String nombre) {
+    public Personaje buscarPersonajePorNombre(String nombre) {
         return repository.findByNombre(nombre);
     }
 
+
+
     public List<Personaje> traerPersonajesPorPelicula(Integer idMovie){
-
         Pelicula pelicula = peliculaService.buscarPorPeliculaId(idMovie);
-
         return pelicula.getPersonajes();
+    }
+
+    public Personaje buscarPersonajePorEdad(Integer edad) {
+        return repository.findByEdad(edad);
     }
 
 }

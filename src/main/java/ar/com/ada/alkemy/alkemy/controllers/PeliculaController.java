@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ar.com.ada.alkemy.alkemy.entities.Pelicula;
-import ar.com.ada.alkemy.alkemy.entities.Usuario;
 import ar.com.ada.alkemy.alkemy.models.request.InfoPeliculaActualizada;
 import ar.com.ada.alkemy.alkemy.models.request.InfoPeliculaNueva;
 import ar.com.ada.alkemy.alkemy.models.response.GenericResponse;
@@ -28,19 +27,18 @@ public class PeliculaController {
     UsuarioService usuarioService;
 
     @PostMapping("/movies")
-    public ResponseEntity<GenericResponse> postPeliculas(@RequestBody InfoPeliculaNueva 
-        infoPeliculaNueva, Integer id) {
+    public ResponseEntity<GenericResponse> postPeliculas(@RequestBody InfoPeliculaNueva infoPeliculaNueva, Integer id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         Pelicula pelicula = service.crearPelicula(infoPeliculaNueva.generoId, infoPeliculaNueva.calificacion,
                 infoPeliculaNueva.fechaCreacion, infoPeliculaNueva.imagen, infoPeliculaNueva.titulo);
 
         GenericResponse respuesta = new GenericResponse();
         respuesta.isOk = true;
-        respuesta.id = pelicula.getPeliculaId(); 
+        respuesta.id = pelicula.getPeliculaId();
         respuesta.mensaje = "La película ha sido creada con exito.";
 
         return ResponseEntity.ok(respuesta);
@@ -52,18 +50,18 @@ public class PeliculaController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         return ResponseEntity.ok(service.getPeliculas());
     }
 
     @GetMapping("/movies/{id}")
     public ResponseEntity<?> getPeliculaById(@PathVariable Integer id) {
-        
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
-        
+        usuarioService.buscarPorUsername(username);
+
         if (service.buscarPorPeliculaId(id) == null) {
             GenericResponse respuesta = new GenericResponse();
             respuesta.mensaje = "El id ingresado no existe";
@@ -73,14 +71,13 @@ public class PeliculaController {
         }
     }
 
-
     @PutMapping("/movies/{id}")
     public ResponseEntity<GenericResponse> putPeliculas(@PathVariable Integer id,
             @RequestBody InfoPeliculaActualizada peliculaActualizada) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         Pelicula pelicula = service.modificarPelicula(id, peliculaActualizada.calificacion,
                 peliculaActualizada.generoId, peliculaActualizada.fechaCreacion, peliculaActualizada.imagen,
@@ -93,5 +90,51 @@ public class PeliculaController {
 
         return ResponseEntity.ok(respuesta);
     }
+
+    @DeleteMapping("movies/{id}")
+    public ResponseEntity<GenericResponse> deleteMovie(@PathVariable Integer id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        usuarioService.buscarPorUsername(username);
+
+        GenericResponse respuesta = new GenericResponse();
+
+        if (service.buscarPorPeliculaId(id) == null) {
+            respuesta.isOk = false;
+            respuesta.mensaje = "El id ingresado no existe";
+            return ResponseEntity.badRequest().body(respuesta);
+
+        } else {
+
+            service.buscarPorPeliculaId(id);
+            respuesta.isOk = true;
+            respuesta.mensaje = "La película ha sido eliminada.";
+            return ResponseEntity.ok(respuesta);
+
+        }
+    }
+
+    @GetMapping("movies/name/{nombre}")
+    public ResponseEntity<Pelicula> getPeliculaPorNombre(@PathVariable String nombre) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        usuarioService.buscarPorUsername(username);
+
+        return ResponseEntity.ok(service.buscarPeliculaPorNombre(nombre));
+    }
+
+    @GetMapping("/movies/genre/{idGenero}")
+    public ResponseEntity<List<Pelicula>> getPeliculaPorIdGenero(@PathVariable Integer idGenero) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        usuarioService.buscarPorUsername(username);
+
+        return ResponseEntity.ok(service.traerPeliculasPorGenero(idGenero));
+    }
+
+
 
 }

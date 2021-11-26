@@ -9,5 +9,7 @@ import ar.com.ada.alkemy.alkemy.entities.Pelicula;
 public interface PeliculaRepository extends JpaRepository<Pelicula,Integer> {
 
     Pelicula findByPeliculaId(Integer id);
+
+    Pelicula findByTitulo(String nombre);
     
 }

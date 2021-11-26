@@ -26,7 +26,7 @@ public class GeneroController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
 
         service.crearGenero(genero);
@@ -43,7 +43,7 @@ public class GeneroController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         return ResponseEntity.ok(service.traerTodos());
     }
@@ -53,7 +53,7 @@ public class GeneroController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         return ResponseEntity.ok(service.buscarPorNombre(nombre));
     }

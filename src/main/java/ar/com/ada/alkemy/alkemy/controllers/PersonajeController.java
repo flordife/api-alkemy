@@ -29,7 +29,7 @@ public class PersonajeController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         List<CharactersResponse> personajes = service.getPersonajes(imagen, nombre);
 
@@ -41,7 +41,7 @@ public class PersonajeController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         GenericResponse respuesta = new GenericResponse();
         Personaje personaje = service.crearPersonaje(personajeNuevo.edad, personajeNuevo.historia,
@@ -60,7 +60,7 @@ public class PersonajeController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         GenericResponse respuesta = new GenericResponse();
 
@@ -88,7 +88,7 @@ public class PersonajeController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         GenericResponse respuesta = new GenericResponse();
 
@@ -112,7 +112,7 @@ public class PersonajeController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
         if (service.buscarPersonajePorId(id) == null) {
             GenericResponse respuesta = new GenericResponse();
@@ -123,36 +123,34 @@ public class PersonajeController {
         }   
     }
 
-    @GetMapping("characters?name=nombre")
+    @GetMapping("characters/name/{nombre}")
     public ResponseEntity<Personaje> getPersonajePorNombre(@PathVariable String nombre) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
-        return ResponseEntity.ok(service.getPersonaje(nombre));
+        return ResponseEntity.ok(service.buscarPersonajePorNombre(nombre));
     }
 
-    @GetMapping("/characters?age=edad")
+    @GetMapping("/characters/age/{edad}")
     public ResponseEntity<Personaje> getPersonajePorEdad(@PathVariable Integer edad) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
-        return ResponseEntity.ok(service.getPersonaje(edad));
+        return ResponseEntity.ok(service.buscarPersonajePorEdad(edad));
     }
 
-    @GetMapping("/characters?movies=idMovie")
+    @GetMapping("/characters/movies/{idMovie}")
     public ResponseEntity<List<Personaje>> getPersonajesPorIdPelicula(@PathVariable Integer idMovie) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Usuario usuario = usuarioService.buscarPorUsername(username);
+        usuarioService.buscarPorUsername(username);
 
-        List<Personaje> personajes = service.traerPersonajesPorPelicula(idMovie);
-
-        return ResponseEntity.ok(personajes);
+        return ResponseEntity.ok(service.traerPersonajesPorPelicula(idMovie));
     }
 
 

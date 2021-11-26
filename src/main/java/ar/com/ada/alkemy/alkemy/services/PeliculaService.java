@@ -70,4 +70,13 @@ public class PeliculaService {
 
     }
 
+    public Pelicula buscarPeliculaPorNombre(String nombre) {
+        return repository.findByTitulo(nombre);
+    }
+
+    public List<Pelicula> traerPeliculasPorGenero(Integer idGenero){
+        Genero genero = generoService.buscarPorGeneroId(idGenero);
+        return genero.getPeliculas();
+    }
+
 }

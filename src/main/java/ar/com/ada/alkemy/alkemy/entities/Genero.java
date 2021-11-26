@@ -17,7 +17,7 @@ public class Genero {
 
     private String imagen;
 
-    @OneToMany(mappedBy = "genero", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "genero", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Pelicula> peliculas = new ArrayList<>();
 
